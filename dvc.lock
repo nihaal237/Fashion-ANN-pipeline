@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: src/prepare.py
+      hash: md5
+      md5: fbb5dd830ae655cd0602a9ec396d021d
+      size: 700
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 23b0000338669d2c61217dbd94633aa0.dir
+      size: 54950512
+      nfiles: 4
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 23b0000338669d2c61217dbd94633aa0.dir
+      size: 54950512
+      nfiles: 4
+    - path: params.yaml
+      hash: md5
+      md5: 51e90ad59c45be670a62f4914ded600c
+      size: 148
+    - path: src/preprocess.py
+      hash: md5
+      md5: d7d2b4961f04a7068d0f3678c434011b
+      size: 1459
+    params:
+      params.yaml:
+        preprocess.seed: 42
+        preprocess.test_size: 0.2
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: eeb8cf242a713e05d8e689a1ad558025.dir
+      size: 219590768
+      nfiles: 6
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: eeb8cf242a713e05d8e689a1ad558025.dir
+      size: 219590768
+      nfiles: 6
+    - path: params.yaml
+      hash: md5
+      md5: 51e90ad59c45be670a62f4914ded600c
+      size: 148
+    - path: src/train.py
+      hash: md5
+      md5: 1b3e0d1c4d361cb112bcd41f9a81b423
+      size: 1680
+    params:
+      params.yaml:
+        train.batch_size: 64
+        train.dense_units: 128
+        train.dropout_rate: 0.3
+        train.epochs: 10
+        train.learning_rate: 0.001
+    outs:
+    - path: models
+      hash: md5
+      md5: c9ac34f2ec64886ae0571f83d64c495b.dir
+      size: 1246081
+      nfiles: 2
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: eeb8cf242a713e05d8e689a1ad558025.dir
+      size: 219590768
+      nfiles: 6
+    - path: models
+      hash: md5
+      md5: 124710e48d00a19b7941c23895b9c909.dir
+      size: 1293892
+      nfiles: 3
+    - path: src/evaluate.py
+      hash: md5
+      md5: 32c6ddb362bf3eed38cc412e68134d44
+      size: 1401
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: fc60874bba6799c38754655d9ea0a8f2
+      size: 83
