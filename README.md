@@ -5,3 +5,7 @@ End-to-end machine learning versioning project using TensorFlow, Git, DVC, and G
 ## Objective
 
 Build a fully connected Artificial Neural Network for Fashion-MNIST classification and manage the complete ML pipeline using Git and DVC.
+
+## Dataset
+
+Fashion-MNIST
