@@ -28,7 +28,8 @@ def main():
     disp.plot(cmap="Blues")
     plt.title("Fashion-MNIST Confusion Matrix")
     plt.tight_layout()
-    plt.savefig(MODEL_DIR / "confusion_matrix.png")
+    Path("reports").mkdir(parents=True, exist_ok=True)
+    plt.savefig("reports/confusion_matrix.png")
     plt.close()
 
     metrics = {
@@ -43,7 +44,7 @@ def main():
     print(f"Test Loss: {test_loss:.4f}")
     print(f"Test Accuracy: {test_accuracy:.4f}")
     print("Metrics saved to metrics.json")
-    print("Confusion matrix saved to models/confusion_matrix.png")
+    print("Confusion matrix saved to reports/confusion_matrix.png")
 
 
 if __name__ == "__main__":

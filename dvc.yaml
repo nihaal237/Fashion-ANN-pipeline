@@ -39,3 +39,5 @@ stages:
       - data/processed
     metrics:
       - metrics.json
+    outs:
+      - reports/confusion_matrix.png
