@@ -1,5 +1,6 @@
 from pathlib import Path
 import numpy as np
+import yaml
 from sklearn.model_selection import train_test_split
 
 
@@ -10,21 +11,24 @@ PROCESSED_DIR = Path("data/processed")
 def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
+    with open("params.yaml", "r") as f:
+        params = yaml.safe_load(f)
+
+    preprocess_params = params["preprocess"]
+
     x_train = np.load(RAW_DIR / "x_train.npy")
     y_train = np.load(RAW_DIR / "y_train.npy")
     x_test = np.load(RAW_DIR / "x_test.npy")
     y_test = np.load(RAW_DIR / "y_test.npy")
 
-    # Normalize pixel values from [0, 255] to [0, 1]
     x_train = x_train.astype("float32") / 255.0
     x_test = x_test.astype("float32") / 255.0
 
-    # Split training data into train and validation sets
     x_train, x_val, y_train, y_val = train_test_split(
         x_train,
         y_train,
-        test_size=0.2,
-        random_state=42,
+        test_size=preprocess_params["test_size"],
+        random_state=preprocess_params["seed"],
         stratify=y_train
     )
 
