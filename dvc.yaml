@@ -11,7 +11,6 @@ stages:
     deps:
       - src/preprocess.py
       - data/raw
-      - params.yaml
     params:
       - preprocess.test_size
       - preprocess.seed
@@ -23,7 +22,6 @@ stages:
     deps:
       - src/train.py
       - data/processed
-      - params.yaml
     params:
       - train.dense_units
       - train.dropout_rate
