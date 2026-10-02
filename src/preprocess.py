@@ -21,8 +21,9 @@ def main():
     x_test = np.load(RAW_DIR / "x_test.npy")
     y_test = np.load(RAW_DIR / "y_test.npy")
 
-    x_train = x_train.astype("float32") / 255.0
-    x_test = x_test.astype("float32") / 255.0
+    # Main branch normalization: standard [0, 1] scaling with clipping
+    x_train = np.clip(x_train.astype("float32") / 255.0, 0.0, 1.0)
+    x_test = np.clip(x_test.astype("float32") / 255.0, 0.0, 1.0)
 
     x_train, x_val, y_train, y_val = train_test_split(
         x_train,
